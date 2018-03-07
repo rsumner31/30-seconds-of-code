@@ -209,6 +209,7 @@ average(1, 2, 3);
 * [`off`](#off)
 * [`on`](#on)
 * [`onUserInputChange`](#onuserinputchange-)
+* [`recordAnimationFrames`](#recordanimationframes)
 * [`redirect`](#redirect)
 * [`runAsync`](#runasync-)
 * [`scrollToTop`](#scrolltotop)
@@ -2865,22 +2866,19 @@ zipObject(['a', 'b'], [1, 2, 3]); // {a: 1, b: 2}
 
 Creates an array of elements, grouped based on the position in the original arrays and using function as the last value to specify how grouped values should be combined.
 
-Check if the last argument provided in a function.
+Check if the last argument provided is a function.
 Use `Math.max()` to get the longest array in the arguments.
 Creates an array with that length as return value and use `Array.from()` with a map-function to create an array of grouped elements.
 If lengths of the argument-arrays vary, `undefined` is used where no value could be found.
 The function is invoked with the elements of each group `(...group)`.
 
 ```js
-const zipWith = (...arrays) => {
-  const length = arrays.length;
-  let fn = length > 1 ? arrays[length - 1] : undefined;
-  fn = typeof fn == 'function' ? (arrays.pop(), fn) : undefined;
-  const maxLength = Math.max(...arrays.map(x => x.length));
-  const result = Array.from({ length: maxLength }).map((_, i) => {
-    return Array.from({ length: arrays.length }, (_, k) => arrays[k][i]);
-  });
-  return fn ? result.map(arr => fn(...arr)) : result;
+const zipWith = (...array) => {
+  const fn = typeof array[array.length - 1] === 'function' ? array.pop() : undefined;
+  return Array.from(
+    { length: Math.max(...array.map(a => a.length)) },
+    (_, i) => (fn ? fn(...array.map(a => a[i])) : array.map(a => a[i]))
+  );
 };
 ```
 
@@ -3437,6 +3435,54 @@ const onUserInputChange = callback => {
 onUserInputChange(type => {
   console.log('The user is now using', type, 'as an input method.');
 });
+```
+
+</details>
+
+<br>[⬆ Back to top](#table-of-contents)
+
+
+### recordAnimationFrames
+
+Invokes the provided callback on each animation frame.
+
+Use recursion. 
+Provided that `running` is `true`, continue invoking `window.requestAnimationFrame()` which invokes the provided callback. 
+Return an object with two methods `start` and `stop` to allow manual control of the recording. 
+Omit the second argument, `autoStart`, to implicitly call `start` when the function is invoked.
+
+```js
+const recordAnimationFrames = (callback, autoStart = true) => {
+  let running = true,
+    raf;
+  const stop = () => {
+    running = false;
+    cancelAnimationFrame(raf);
+  };
+  const start = () => {
+    running = true;
+    run();
+  };
+  const run = () => {
+    raf = requestAnimationFrame(() => {
+      callback();
+      if (running) run();
+    });
+  };
+  if (autoStart) start();
+  return { start, stop };
+};
+```
+
+<details>
+<summary>Examples</summary>
+
+```js
+const cb = () => console.log('Animation frame fired');
+const recorder = recordAnimationFrames(cb); // logs 'Animation frame fired' on each animation frame
+recorder.stop(); // stops logging
+recorder.start(); // starts again
+const recorder2 = recordAnimationFrames(cb, false); // `start` needs to be explicitly called to begin recording frames
 ```
 
 </details>
