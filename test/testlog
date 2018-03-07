@@ -1989,6 +1989,7 @@ Test log for: Mon Mar 05 2018 20:32:06 GMT+0000 (UTC)
     ✔ Sends a POST request
     ✔ Runs the function provided
     ✔ Runs promises in series
+    ✔ Sends a POST request
     ✔ Works as expecting, passing arguments properly
     ✔ Works with multiple promises
 
