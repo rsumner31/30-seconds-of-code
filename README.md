@@ -14,11 +14,6 @@
 - You can import these snippets into your text editor of choice (VSCode, Atom, Sublime) using the files found in [this repo](https://github.com/Rob-Rychs/30-seconds-of-code-texteditorsnippets).
 - You can import these snippets into Alfred 3, using [this file](https://github.com/lslvxy/30-seconds-of-code-alfredsnippets).
 
-#### Related
-
-- [30 Seconds of CSS](https://atomiks.github.io/30-seconds-of-css/)
-- [30 Seconds of Python](https://github.com/kriadmin/30-seconds-of-python-code)
-
 #### Package
 
 ⚠️ **WARNING:** Snippets are not production ready.
@@ -214,7 +209,6 @@ average(1, 2, 3);
 * [`scrollToTop`](#scrolltotop)
 * [`setStyle`](#setstyle)
 * [`show`](#show)
-* [`smoothScroll`](#smoothscroll)
 * [`toggleClass`](#toggleclass)
 * [`UUIDGeneratorBrowser`](#uuidgeneratorbrowser)
 
@@ -3591,33 +3585,6 @@ const show = (...el) => [...el].forEach(e => (e.style.display = ''));
 
 ```js
 show(...document.querySelectorAll('img')); // Shows all <img> elements on the page
-```
-
-</details>
-
-<br>[⬆ Back to top](#table-of-contents)
-
-
-### smoothScroll
-
-Smoothly scrolls the element on which it's called into the visible area of the browser window.
-
-Use `.scrollIntoView` method to scroll the element. 
-Pass `{ behavior: 'smooth' }` to `.scrollIntoView` so it scrolls smoothly.
-
-```js
-const smoothScroll = element =>
-  document.querySelector(element).scrollIntoView({
-    behavior: 'smooth'
-  });
-```
-
-<details>
-<summary>Examples</summary>
-
-```js
-smoothScroll('#fooBar'); // scrolls smoothly to the element with the id fooBar
-smoothScroll('.fooBar'); // scrolls smoothly to the first element with a class of fooBar
 ```
 
 </details>
