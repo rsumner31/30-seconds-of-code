@@ -1398,6 +1398,10 @@ Test log for: Mon Feb 26 2018 20:28:27 GMT+0000 (UTC)
     ✔ rearg is a Function
     ✔ Reorders arguments in invoked function
 
+  Testing recordAnimationFrames
+
+    ✔ recordAnimationFrames is a Function
+
   Testing redirect
 
     ✔ redirect is a Function
